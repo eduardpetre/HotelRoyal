@@ -1,0 +1,22 @@
+.room-list {
+	width: 80%;
+}
+.card {
+	width: 18rem;
+}
+
+.search {
+    float:right;
+}
+
+.search-list{
+    position: fixed;
+}
+
+.search .list-group {
+    margin-top:50px;
+}
+
+/* .nd {
+	text-decoration: none;
+} */
