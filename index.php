@@ -66,7 +66,7 @@ $categories = get_all_categories($conn);
 		<div class="d-flex pt-3">
 
 			<?php if ($rooms == 0){ ?>
-				<div class="alert alert-warning text-center p-5" role="alert">
+				<div class="alert alert-warning text-center p-5" role="alert" style="width:70%; margin-right:10%">
                     Nu exista camere in baza de date
 		        </div>
 			<?php }else{ ?>

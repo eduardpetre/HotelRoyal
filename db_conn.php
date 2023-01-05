@@ -1,21 +1,21 @@
 <?php
 
 // server name
-$sName = "localhost";
+$sName = "eu-cdbr-west-03.cleardb.net";
 // user name
-$uName = "root";
+$uName = "b58ba2155ca05d";
 // password
-$pass = "";
+$pass = "9b87ce75";
 
 // database name
-$db_name = "hotel_management_db";
+$db_name = "heroku_9259e79e8b40d66";
 
 
 // facem conexiunea dintre server si data de baze 
 // folosing PHP Data Objects (PDO)
 
 try {
-    $conn = new PDO("mysql:host=$sName;dbname=$db_name", $uName, $pass);
+    $conn = new PDO('mysql:host=eu-cdbr-west-03.cleardb.net;dbname=heroku_9259e79e8b40d66', $uName, $pass);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }catch(PDOException $e){
     echo "Connection failed: ". $e->getMessage();
