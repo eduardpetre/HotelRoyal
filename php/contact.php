@@ -50,8 +50,8 @@ if (isset($_POST['name']) &&
         CURLOPT_CUSTOMREQUEST => "POST",
         CURLOPT_POSTFIELDS =>"{\"recipients\":[{\"email\":\"eduardpetredaw@gmail.com\"}],\"title\":\"Title\",\"html\":\"Body\"}",
         CURLOPT_HTTPHEADER => array(
-            "x-trustifi-key: " . $_ENV['TRUSTIFI_KEY'],
-            "x-trustifi-secret: " . $_ENV['TRUSTIFI_SECRET'],
+            "x-trustifi-key: " . "fff6f53b014b6dc008eb3fb85d1c1510c261f1c1ccc3e41c",
+            "x-trustifi-secret: " . "75127a9442b372a32c3d7faf3f547ab7",
             "content-type: application/json"
         )
     ));
