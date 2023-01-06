@@ -1,10 +1,10 @@
 <?php
-if (isset($_GET['name'])) {
-        $name = $_GET['name'];
+if (isset($_POST['name'])) {
+        $name = $_POST['name'];
     } else $name = '';
 
-    if (isset($_GET['email'])) {
-        $email = $_GET['email'];
+    if (isset($_POST['email'])) {
+        $email = $_POST['email'];
     } else $email = '';
 
 ?>
@@ -24,42 +24,66 @@ if (isset($_GET['name'])) {
 
 </head>
 <body>
-    <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-        <form class="p-5 rounded shadow" style="max-width: 30rem; width: 100%" method="POST" action="php/register.php">
-            
-            <h1 class="text-center display-4 pb-5">Inregistrare</h1>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+		    <div class="container-fluid">
+		        <a class="navbar-brand" href="index.php">Hotel Royal</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="index.php">Rezervare</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contact.php">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.php">Despre noi</a>
+                        </li>
+                    </ul>
+                </div>
+		    </div>
+		</nav>
 
-            <?php if (isset($_GET['error'])) { ?>
-            <div class="alert alert-danger" role="alert">
-                <?=htmlspecialchars($_GET['error']); ?>
-            </div>
-            <?php } ?>
-            
-            <?php if (isset($_GET['success'])) { ?>
-            <div class="alert alert-success" role="alert">
-                <?=htmlspecialchars($_GET['success']); ?>
-            </div>
-            <?php } ?>
+        <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+            <form class="p-5 rounded shadow" style="max-width: 30rem; width: 100%" method="POST" action="php/register.php">
+                
+                <h1 class="text-center display-4 pb-5">Inregistrare</h1>
 
-            <div class="mb-3">
-                <label for="exampleInputName1" class="form-label">Nume complet</label>
-                <input type="text" class="form-control" value="<?=$name?>" name="name" id="exampleInputName1" aria-describedby="nameHelp">
-            </div>
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Email address</label>
-                <input type="email" class="form-control" value="<?=$email?>" name="email" id="exampleInputEmail1" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Parola</label>
-                <input type="password" class="form-control" name="password" id="exampleInputPassword1">
-            </div>
-            <div class="mb-3">
-                <label for="exampleInputRePassword1" class="form-label">Confirmare parola</label>
-                <input type="password" class="form-control" name="repassword" id="exampleInputRePassword1">
-            </div>
-            <button type="submit" class="btn btn-primary">Inregistrare</button>
-            <a href="login.php" class="btn btn-light" style="float:right">Ai deja un cont?</a>
-        </form>
+                <?php if (isset($_GET['error'])) { ?>
+                <div class="alert alert-danger" role="alert">
+                    <?=htmlspecialchars($_GET['error']); ?>
+                </div>
+                <?php } ?>
+                
+                <?php if (isset($_GET['success'])) { ?>
+                <div class="alert alert-success" role="alert">
+                    <?=htmlspecialchars($_GET['success']); ?>
+                </div>
+                <?php } ?>
+
+                <div class="mb-3">
+                    <label for="exampleInputName1" class="form-label">Nume complet</label>
+                    <input type="text" class="form-control" value="<?=$name?>" name="name" id="exampleInputName1" aria-describedby="nameHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                    <input type="email" class="form-control" value="<?=$email?>" name="email" id="exampleInputEmail1" aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Parola</label>
+                    <input type="password" class="form-control" name="password" id="exampleInputPassword1">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputRePassword1" class="form-label">Confirmare parola</label>
+                    <input type="password" class="form-control" name="repassword" id="exampleInputRePassword1">
+                </div>
+                <button type="submit" class="btn btn-primary">Inregistrare</button>
+                <a href="login.php" class="btn btn-light" style="float:right">Ai deja un cont?</a>
+            </form>
+        </div>
     </div>
 </body>
 </html>

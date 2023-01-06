@@ -1,9 +1,19 @@
+<?php
+    session_start();
+
+    include "db_conn.php";
+    
+    include "php/func-user.php";
+    $users = get_all_users($conn);
+
+?>
+
 <!DOCTYPE html>
 <html lang ="ro">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOGIN</title>
+    <title>ABOUT</title>
 
     <!-- bootstrap 5 CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
@@ -14,6 +24,7 @@
 </head>
 <body>
     <div class="container">
+        
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
 		    <div class="container-fluid">
 		        <a class="navbar-brand" href="index.php">Hotel Royal</a>
@@ -31,33 +42,40 @@
                         <li class="nav-item">
                             <a class="nav-link" href="about.php">Despre noi</a>
                         </li>
+                        <li class="nav-item">
+                        
+                        <?php if (isset($_SESSION['user_id'])) {?>
+                            <a class="nav-link" href="admin.php">Admin</a>
+                        <?php } else if (isset($_SESSION['user2_id'])) {?>
+                            <a class="nav-link" href="logout.php">Deconectare</a>
+                        <?php } else {?>
+                            <a class="nav-link" href="login.php">Login</a>
+                        <?php }?>
+
+                        </li>
                     </ul>
                 </div>
 		    </div>
 		</nav>
 
         <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-            <form class="p-5 rounded shadow" style="max-width: 30rem; width: 100%" method="POST" action="php/auth.php">
+            <div class="p-5 rounded shadow" style="max-width: 30rem; width: 100%">
                 
-                <h1 class="text-center display-4 pb-5">Conectare</h1>
+                <h1 class="text-center display-4 pb-5">Despre noi</h1>
 
-                <?php if (isset($_GET['error'])) { ?>
-                <div class="alert alert-danger" role="alert">
-                    <?=htmlspecialchars($_GET['error']); ?>
-                </div>
-                <?php } ?>
+                <?php $visitors = file_get_contents('txt/visitors.txt');?>
+                <?php $reservations = file_get_contents('txt/reservations.txt');?>
 
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Email address</label>
-                    <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <label class="form-label">Numar de accesari <?=$visitors?></label>
                 </div>
                 <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" name="password" id="exampleInputPassword1">
+                    <label class="form-label">Numar de rezervari <?=$reservations?></label>
                 </div>
-                <button type="submit" class="btn btn-primary">Conectare</button>
-                <a href="signup.php" class="btn btn-light" style="float:right">Inregistreaza-te</a>
-            </form>
+                <div class="mb-3">
+                    <label class="form-label">Numar de clienti <?=count($users)?></label>
+                </div>
+            </div>
         </div>
     </div>
 </body>

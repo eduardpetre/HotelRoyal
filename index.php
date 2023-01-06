@@ -9,6 +9,12 @@ $rooms = get_all_rooms($conn);
 include "php/func-category.php";
 $categories = get_all_categories($conn);
 
+
+$visitors = file_get_contents('txt/visitors.txt');
+$visitors = $visitors + 1;
+
+file_put_contents('txt/visitors.txt', $visitors);
+
 ?>
 
 
@@ -42,10 +48,10 @@ $categories = get_all_categories($conn);
                             <a class="nav-link active" aria-current="page" href="index.php">Rezervare</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Contact</a>
+                            <a class="nav-link" href="contact.php">Contact</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Despre noi</a>
+                            <a class="nav-link" href="about.php">Despre noi</a>
                         </li>
                         <li class="nav-item">
                         
@@ -91,17 +97,17 @@ $categories = get_all_categories($conn);
 							<br></b></i>
                             <i><b>
                                 <?php 
-                                if (isset($_GET['check-in']) && 
-                                    isset($_GET['check-out'])) {
+                                if (isset($_POST['check-in']) && 
+                                    isset($_POST['check-out'])) {
                                         
-                                        if (date_create($_GET['check-out']) < date_create($_GET['check-in'])) {
+                                        if (date_create($_POST['check-out']) < date_create($_POST['check-in'])) {
                                 ?>        
                                             Perioada indispoinibila!
 
                                 <?php   } else {
 
 
-                                        $diff = date_diff(date_create($_GET['check-out']),date_create($_GET['check-in']));
+                                        $diff = date_diff(date_create($_POST['check-out']),date_create($_POST['check-in']));
                                         $newPrice = $room['price']*$diff->days;
                                 ?>    
                                         Pret: 
@@ -120,9 +126,14 @@ $categories = get_all_categories($conn);
                                 <?php } ?>
 							<br></b></i>
 						</p>
-
-                        <a href="php/pdf-generator.php" class="btn btn-success" style="width: 100%;">Rezerva acum!</a>
-
+                        <form method="POST" action="php/pdf-generator.php">
+                            <?php 
+                                if (isset($_POST['check-in']) && isset($_POST['check-out'])) { ?>
+                                    <input type="date" hidden value="<?=$_POST['check-in']?>" name="checkin">
+                                    <input type="date" hidden value="<?=$_POST['check-out']?>" name="checkout">
+                            <?php } ?>
+                                <button type="submit" class="btn btn-success" style="width:100%">Rezerva acum!</button>
+                        </form>
 					</div>
 				</div>
 				<?php } ?>
@@ -131,7 +142,7 @@ $categories = get_all_categories($conn);
             
             <div class="search">
                 <div class="search-list">
-                    <form class="p-5 rounded shadow" style="max-width: 30rem; width: 100%" method="GET" action="index.php">
+                    <form class="p-5 rounded shadow" style="max-width: 30rem; width: 100%" method="POST" action="index.php">
                         <div class="mb-3">
                             <label class="form-label">Data check-in</label>
                             <input type="date" class="form-control" value="<?=date("Y-m-d", strtotime("+0 day"))?>" min="<?=date("Y-m-d", strtotime("+0 day"))?>" name="check-in">
@@ -142,7 +153,7 @@ $categories = get_all_categories($conn);
                         </div>
                         <button type="submit" class="btn btn-primary" style="width:100%">Cauta</button>
                     </form>
-
+                    
                     <div class="list-group rounded shadow">
                         <?php if ($categories == 0){
                             // do nothing
@@ -157,7 +168,6 @@ $categories = get_all_categories($conn);
                     </div>
                 </div>
             </div>
-
 		</div>
 	</div>
 </body>

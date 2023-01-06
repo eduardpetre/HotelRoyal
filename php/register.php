@@ -22,7 +22,6 @@ if (isset($_POST['name']) &&
     $repassword = $_POST['repassword'];
 
     $user_data = 'email='.$email.'&name='.$name;
-    echo $user_data;
 
     // validare simpla de formular
     $text = "nume";

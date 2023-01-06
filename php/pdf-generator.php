@@ -25,11 +25,17 @@ if (isset($_SESSION['user_id'])){
 }
     
 if (!empty($name) && !empty($email)){
-    if (isset($_GET['check-in']) && 
-        isset($_GET['check-out'])){
 
-            $checkin = $_GET['check-in'];   
-            $checkout = $_GET['check-out'];
+    $reservations = file_get_contents('../txt/reservations.txt');
+    $reservations = $reservations + 1;
+
+    file_put_contents('../txt/reservations.txt', $reservations);
+
+    if (isset($_POST['checkin']) && 
+        isset($_POST['checkout'])){
+
+            $checkin = $_POST['checkin'];   
+            $checkout = $_POST['checkout'];
         
         } else {
             $checkin = date("Y-m-d", strtotime("+0 day"));
