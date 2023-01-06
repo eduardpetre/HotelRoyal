@@ -42,10 +42,8 @@ if (isset($_POST['name']) &&
     $to = $myemail;
     
     $email_subject = "Contact form submission: $name";
-    $email_body = "You have received a new message. Here are the details: Name: $name Email: $email Message $message";
+    $email_body = "You have received a new message. <br> Here are the details: Name: $name Email: $email Message $message";
     
-    $headers = "From: $myemail\nReply-To: $email";
-
     // mail($to,$email_subject,$email_body,$headers);
 
 
