@@ -38,6 +38,20 @@ if (isset($_POST['name']) &&
     is_empty($message, $text, $location, $ms, $user_data);
 
 
+    $myemail = 'eduardpetredaw@gmail.com';
+    $to = $myemail;
+    
+    $email_subject = "Contact form submission: $name";
+    $email_body = "You have received a new message. ".
+                " Here are the details:\n Name: $name \n ".
+                "Email: $email\n Message \n $message";
+    
+    $headers = "From: $myemail\n";
+    $headers .= "Reply-To: $email";
+
+    // mail($to,$email_subject,$email_body,$headers);
+
+
     $curl = curl_init();
     curl_setopt_array($curl, array(
         CURLOPT_URL => $_ENV['TRUSTIFI_URL'] . "/api/i/v1/email",
@@ -48,7 +62,7 @@ if (isset($_POST['name']) &&
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS =>"{\"recipients\":[{\"email\":\"eduardpetredaw@gmail.com\"}],\"title\":\"Title\",\"html\":\"Body\"}",
+        CURLOPT_POSTFIELDS =>"{\"recipients\":[{\"email\":\"$myemail\"}],\"title\":\"$email_subject\",\"html\":\"$email_body\"}",
         CURLOPT_HTTPHEADER => array(
             "x-trustifi-key: " . "fff6f53b014b6dc008eb3fb85d1c1510c261f1c1ccc3e41c",
             "x-trustifi-secret: " . "75127a9442b372a32c3d7faf3f547ab7",
@@ -68,22 +82,7 @@ if (isset($_POST['name']) &&
         exit;
     }
 
-    // $myemail = 'vasile-eduard.petre@s.unibuc.ro';
-    // $to = $myemail;
-    
-    // $email_subject = "Contact form submission: $name";
-    // $email_body = "You have received a new message. ".
-    //             " Here are the details:\n Name: $name \n ".
-    //             "Email: $email\n Message \n $message";
-    
-    // $headers = "From: $myemail\n";
-    // $headers .= "Reply-To: $email";
-    
-    // mail($to,$email_subject,$email_body,$headers);
-
-    //redirect to the 'thank you' page
-
 } else {
-    // Redirectionare la "../signup.php"
+    // Redirectionare la "../contact.php"
     header("Location: ../contact.php");
 }
