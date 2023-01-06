@@ -169,6 +169,40 @@ file_put_contents('txt/visitors.txt', $visitors);
                 </div>
             </div>
 		</div>
+
+        <?php
+        require 'php/func-include-content.php';
+
+        // echo "Clinica noastra dispune de urmatoarele pachete in parteneriat cu clinica Regina Maria:";
+        $html = file_get_html('https://avenuehotels.ro/hotel-avenue-buzau/');
+        $titles = $html->find('p.elementor-heading-title.elementor-size-default');
+        $desc1 = $html->find('div.elementor-element.elementor-element-a0293a2.elementor-widget.elementor-widget-text-editor');
+        $desc2 = $html->find('div.elementor-element.elementor-element-b2ddd39.elementor-widget.elementor-widget-text-editor');
+        $desc3 = $html->find('div.elementor-element.elementor-element-ab8b199.elementor-widget.elementor-widget-text-editor');
+        
+        $desc = array ($desc1[0], $desc2[0], $desc3[0]);
+
+        ?>
+
+        <div class="d-flex pt-3">
+            <div class="room-list d-flex flex-wrap">
+                <?php 
+                    $i = 3;
+                    while($i<6) { 
+                ?>
+                    <div class="card m-1 rounded shadow">
+                        <div class="card-body">
+                            <h5 class="card-title"><?=$titles[$i]?></h5>
+                            <p class="card-text">
+                                <?=$desc[$i-3];?>
+                            </p>
+                            
+                        </div>
+                    </div>
+                    <?php $i=$i+1;?>
+                <?php } ?>
+            </div>
+        </div>
 	</div>
 </body>
 </html>
