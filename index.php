@@ -121,7 +121,7 @@ $categories = get_all_categories($conn);
 							<br></b></i>
 						</p>
 
-                        <a href="#" class="btn btn-success" style="width: 100%;">Rezerva acum!</a>
+                        <a href="php/pdf-generator.php" class="btn btn-success" style="width: 100%;">Rezerva acum!</a>
 
 					</div>
 				</div>

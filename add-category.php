@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 // daca admin este conectat
