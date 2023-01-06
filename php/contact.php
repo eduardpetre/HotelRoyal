@@ -37,7 +37,7 @@ if (isset($_POST['name']) &&
     $ms = "error";
     is_empty($message, $text, $location, $ms, $user_data);
 
-    $myemail = 'vasile-eduard.petre@s.unibuc.ro'
+    $myemail = 'vasile-eduard.petre@s.unibuc.ro';
     $to = $myemail;
     
     $email_subject = "Contact form submission: $name";
