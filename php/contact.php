@@ -42,7 +42,7 @@ if (isset($_POST['name']) &&
     $to = $myemail;
     
     $email_subject = "Contact form submission: $name";
-    $email_body = "You have received a new message. Here are the details:\nName: $name\nEmail: $email\nMessage\n$message";
+    $email_body = "You have received a new message. Here are the details: Name: $name Email: $email Message $message";
     
     $headers = "From: $myemail\nReply-To: $email";
 
@@ -59,7 +59,7 @@ if (isset($_POST['name']) &&
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS =>"{\"recipients\":[{\"email\":\"$myemail\"}],\"title\":\"$email_subject\",\"html\":\"You have received a new message. Here are the details:\nName: $name\nEmail: $email\nMessage\n$message\"}",
+        CURLOPT_POSTFIELDS =>"{\"recipients\":[{\"email\":\"$myemail\"}],\"title\":\"$email_subject\",\"html\":\"$email_body\"}",
         CURLOPT_HTTPHEADER => array(
             "x-trustifi-key: " . "fff6f53b014b6dc008eb3fb85d1c1510c261f1c1ccc3e41c",
             "x-trustifi-secret: " . "75127a9442b372a32c3d7faf3f547ab7",
