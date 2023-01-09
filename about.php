@@ -4,7 +4,10 @@
     include "db_conn.php";
     
     include "php/func-user.php";
-    $users = get_all_users($conn);
+    $users = get_nr_users($conn);
+
+    include "php/func-admin.php";
+    $admins = get_nr_admin($conn);
 
 ?>
 
@@ -20,6 +23,29 @@
     
     <!-- bootstrap 5 Js CDN-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['Task', 'Hours per Day'],
+            ['Useri',     <?php echo $users ?>],
+            ['Admini',      <?php echo $admins ?>],
+        ]);
+
+
+        var options = {
+          title: 'Utilizatori',
+          is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+      }
+    </script>
 
 </head>
 <body>
@@ -73,8 +99,11 @@
                     <label class="form-label">Numar de rezervari <?=$reservations?></label>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Numar de clienti <?=count($users)?></label>
+                    <label class="form-label">Numar de clienti <?=$users?></label>
                 </div>
+
+                <div id="piechart_3d"></div>
+
             </div>
         </div>
     </div>

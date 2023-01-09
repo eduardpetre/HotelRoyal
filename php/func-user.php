@@ -29,3 +29,13 @@ function get_user($con, $id){
 
     return $user;
 }
+
+function get_nr_users($con){
+    $sql = "SELECT * FROM users";
+    $stmt = $con->prepare($sql);
+    $stmt->execute();
+
+    $nrUsers = $stmt->rowCount();
+
+    return $nrUsers;
+}

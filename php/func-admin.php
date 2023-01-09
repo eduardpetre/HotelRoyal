@@ -29,3 +29,13 @@ function get_admin($con, $id){
 
     return $admin;
 }
+
+function get_nr_admin($con){
+    $sql = "SELECT * FROM admin";
+    $stmt = $con->prepare($sql);
+    $stmt->execute();
+
+    $nrAdmins = $stmt->rowCount();
+
+    return $nrAdmins;
+}
