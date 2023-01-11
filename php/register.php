@@ -70,12 +70,11 @@ if (isset($_POST['name']) &&
             include "../PHPGangsta/GoogleAuthenticator.php";
             $ga = new PHPGangsta_GoogleAuthenticator();
             $secret = $ga->createSecret();
+            $qrCodeUrl = $ga->getQRCodeGoogleUrl('my_user', $secret);
             
             $email = $_POST['email'];
             $email_subject = "2FA Hotel Royal";
-            $email_body = "Codul pentru contul creat este: ".$secret;
-
-            // mail($to,$email_subject,$email_body,$headers);
+            $email_body = "Codul pentru contul creat este: ".$qrCodeUrl;
 
             $curl = curl_init();
             curl_setopt_array($curl, array(

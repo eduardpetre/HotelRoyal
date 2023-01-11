@@ -34,7 +34,7 @@ if (isset($_POST['code'])){
 
         include "../PHPGangsta/GoogleAuthenticator.php";
         $ga = new PHPGangsta_GoogleAuthenticator();
-        $checkResult = $ga->verifyCode($user_code, $_POST['code'], 2);
+        $checkResult = $ga->verifyCode($user_code, $_POST['code'], 10);
 
         if (!$checkResult){
             $sql2 = "DELETE FROM users 
@@ -45,7 +45,7 @@ if (isset($_POST['code'])){
 
             // error message
             $er="Codul introdus a fost gresit. Reia inregistrarea!";
-            header("Location: ../signup.php?error=$er");
+            header("Location: ../2FA.php?error=$er");
             exit;
         } else {
             // success message
