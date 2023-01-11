@@ -90,7 +90,8 @@ if (isset($_POST['name']) &&
                 )
             ));
 
-            curl_exec($curl);
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
             curl_close($curl);
 
             $sql2 = "INSERT INTO users(name, email, password, code) 
@@ -101,6 +102,7 @@ if (isset($_POST['name']) &&
 
             if ($res) {
                 // success message
+                $_SESSION['email'] = $email;
                 header("Location: ../2FA.php?success=Introduceti codul de verificare");
                 exit;
             }else {
@@ -109,7 +111,6 @@ if (isset($_POST['name']) &&
                 header("Location: ../signup.php?error=$em");
                 exit;
             }
-
         }
     }
 

@@ -12,13 +12,13 @@ if (isset($_POST['code'])){
 
     // Preluam datele din formular
     // si le memoram in variabile 
-    $code = validate($_POST['name']);
+    $code = validate($_POST['code']);
 
     // validare simpla de formular
-    $text = "cod";
+    $text = "cod".$code;
     $location = "../2FA.php";
     $ms = "error";
-    is_empty($name, $text, $location, $ms, $user_data);
+    is_empty($code, $text, $location, $ms, "");
 
     $email = $_SESSION['email'];
     $sql = "SELECT * FROM users
@@ -44,17 +44,16 @@ if (isset($_POST['code'])){
             $res = $stmt2->execute([$user_id]);
 
             // error message
-            $er="Codul nu corespunde!"
-            header("Location: ../2FA.php?error=$er");
+            $er="Codul introdus a fost gresit. Reia inregistrarea!";
+            header("Location: ../signup.php?error=$er");
             exit;
         } else {
             // success message
-            $sm="Contul a fost creat cu succes!"
+            $sm="Contul a fost creat cu succes!";
             header("Location: ../2FA.php?success=$sm");
             exit;
         }
     }
-
 } else {
     // Redirectionare la "../signup.php"
     header("Location: ../2FA.php");
