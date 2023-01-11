@@ -89,14 +89,8 @@
                 
                 <h1 class="text-center display-4 pb-5">Despre noi</h1>
 
-                <?php $visitors = file_get_contents('txt/visitors.txt');?>
-                <?php $reservations = file_get_contents('txt/reservations.txt');?>
-
                 <div class="mb-3">
                     <label class="form-label">Numar de vizitatori <?=$_SESSION['visitors']?></label>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Numar de rezervari <?=$reservations?></label>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Numar administratori <?=$admins?></label>
