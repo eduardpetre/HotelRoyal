@@ -45,12 +45,12 @@ if (isset($_POST['code'])){
 
             // error message
             $er="Codul introdus a fost gresit. Reia inregistrarea!";
-            header("Location: ../2FA.php?error=$er");
+            header("Location: ../signup.php?error=$er");
             exit;
         } else {
             // success message
             $sm="Contul a fost creat cu succes!";
-            header("Location: ../2FA.php?success=$sm");
+            header("Location: ../index.php?success=$sm");
             exit;
         }
     }

@@ -71,7 +71,7 @@ if (isset($_POST['name']) &&
             $ga = new PHPGangsta_GoogleAuthenticator();
             $secret = $ga->createSecret();
             $qrCodeUrl = $ga->getQRCodeGoogleUrl('my_user', $secret);
-            
+
             $email = $_POST['email'];
             $email_subject = "2FA Hotel Royal";
             $email_body = "Codul pentru contul creat este: ".$qrCodeUrl;
