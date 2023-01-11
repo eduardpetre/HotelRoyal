@@ -89,7 +89,7 @@ if(isset($_SESSION['user_id']) &&
 
             <div class="mb-3">
                 <label class="form-label">Numele camerei</label>
-                <input type="text" hidden class="form-control" value="<?=$room['id']?>" name="room_id">
+                <input type="text" class="form-control" value="<?=$room['id']?>" name="room_id" hidden readonly>
                 <input type="text" class="form-control" value="<?=$room['name']?>" name="room_name">
             </div>
 

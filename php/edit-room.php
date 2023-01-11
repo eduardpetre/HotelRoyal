@@ -20,10 +20,10 @@ if(isset($_SESSION['user_id']) &&
         isset($_POST['current_picture'])) {
 
         $id = $_POST['room_id'];
-        $name = $_POST['room_name'];
+        $name = validate($_POST['room_name']);
         $category = $_POST['room_category'];
-        $description = $_POST['room_description'];
-        $price = $_POST['room_price'];
+        $description = validate($_POST['room_description']);
+        $price = validate($_POST['room_price']);
         $current_picture = $_POST['current_picture'];
 
 

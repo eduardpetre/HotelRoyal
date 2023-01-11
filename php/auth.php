@@ -14,8 +14,8 @@ if (isset($_POST['email']) &&
     // Preluam datele din formular
     // si le memoram in variabile 
 
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    $email = validate($_POST['email']);
+    $password = validate($_POST['password']);
 
     // validare simpla de formular
 

@@ -85,7 +85,7 @@ if(isset($_SESSION['user_id']) &&
 
             <div class="mb-3">
                 <label class="form-label">Numele categoriei</label>
-                <input type="text" value="<?=$category['id']?>" hidden name="category_id">
+                <input type="text" value="<?=$category['id']?>" name="category_id" hidden readonly>
                 <input type="text" class="form-control" value="<?=$category['name']?>" name="category_name">
             </div>
 

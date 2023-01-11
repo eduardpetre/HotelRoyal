@@ -9,7 +9,7 @@ if(isset($_SESSION['user_id']) &&
 
     if (isset($_POST['category_name'])) {
 
-        $name = $_POST['category_name'];
+        $name = validate($_POST['category_name']);
         
         if(empty($name)){
             $em = "Campul pentru numele categoriei este gol!";

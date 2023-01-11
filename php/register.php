@@ -15,11 +15,10 @@ if (isset($_POST['name']) &&
 
     // Preluam datele din formular
     // si le memoram in variabile 
-
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $repassword = $_POST['repassword'];
+    $name = validate($_POST['name']);
+    $email = validate($_POST['email']);
+    $password = validate($_POST['password']);
+    $repassword = validate($_POST['repassword']);
 
     $user_data = 'email='.$email.'&name='.$name;
 
@@ -61,16 +60,48 @@ if (isset($_POST['name']) &&
             header("Location: ../signup.php?error=Exista deja un cont cu acelasi email!&$user_data");
             exit;
         } else {
-            $sql2 = "INSERT INTO users(name, email, password) 
-                    VALUES(?,?,?)";
+
+            include "../PHPGangsta/GoogleAuthenticator.php";
+            $ga = new PHPGangsta_GoogleAuthenticator();
+            $secret = $ga->createSecret();
+
+            $to = $email;
+            
+            $email_subject = "2FA Hotel Royal";
+            $email_body = "Codul pentru contul creat este: ".$secret;
+
+            // mail($to,$email_subject,$email_body,$headers);
+
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => $_ENV['TRUSTIFI_URL'] . "/api/i/v1/email",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS =>"{\"recipients\":[{\"email\":\"$myemail\"}],\"title\":\"$email_subject\",\"html\":\"$email_body\"}",
+                CURLOPT_HTTPHEADER => array(
+                    "x-trustifi-key: " . "fff6f53b014b6dc008eb3fb85d1c1510c261f1c1ccc3e41c",
+                    "x-trustifi-secret: " . "75127a9442b372a32c3d7faf3f547ab7",
+                    "content-type: application/json"
+                )
+            ));
+
+            curl_exec($curl);
+            curl_close($curl);
+
+            $sql2 = "INSERT INTO users(name, email, password, code) 
+                    VALUES(?,?,?,?)";
             
             $stmt2 = $conn->prepare($sql2);
-            $res = $stmt2->execute([$name, $email, $password]);
+            $res = $stmt2->execute([$name, $email, $password, $secret]);
 
             if ($res) {
                 // success message
-                $sm = "Contul a fost creat cu succes!";
-                header("Location: ../signup.php?success=$sm");
+                header("Location: ../2FA.php?success=Introduceti codul de verificare");
                 exit;
             }else {
                 // error message

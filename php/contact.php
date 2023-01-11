@@ -15,9 +15,9 @@ if (isset($_POST['name']) &&
     // Preluam datele din formular
     // si le memoram in variabile 
 
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $message = $_POST['message'];
+    $name = validate($_POST['name']);
+    $email = validate($_POST['email']);
+    $message = validate($_POST['message']);
 
     $user_data = 'email='.$email.'&name='.$name;
 
@@ -45,12 +45,8 @@ if (isset($_POST['name']) &&
     $email_body = "You have received a new message. ".
                 " Here are the details:<br> Name: $name <br> ".
                 "Email: $email<br> Message <br> $message";
-    
-    $headers = "From: $myemail\n";
-    $headers .= "Reply-To: $email";
 
     // mail($to,$email_subject,$email_body,$headers);
-
 
     $curl = curl_init();
     curl_setopt_array($curl, array(

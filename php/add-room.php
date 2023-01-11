@@ -17,10 +17,10 @@ if(isset($_SESSION['user_id']) &&
         isset($_POST['room_price']) &&
         isset($_FILES['room_picture'])) {
 
-        $name = $_POST['room_name'];
-        $category = $_POST['room_category'];
-        $description = $_POST['room_description'];
-        $price = $_POST['room_price'];
+        $name = validate($_POST['room_name']);
+        $category = validate($_POST['room_category']);
+        $description = validate($_POST['room_description']);
+        $price = validate($_POST['room_price']);
 
         // making URL data format
         $user_input = 'name=' .$name.'&category_id='.$category.'&description='.$description.'&price='.$price;

@@ -99,6 +99,9 @@
                     <label class="form-label">Numar de rezervari <?=$reservations?></label>
                 </div>
                 <div class="mb-3">
+                    <label class="form-label">Numar administratori <?=$admins?></label>
+                </div>
+                <div class="mb-3">
                     <label class="form-label">Numar de clienti <?=$users?></label>
                 </div>
 

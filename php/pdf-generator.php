@@ -2,8 +2,6 @@
 
 session_start();
 
-require('../fpdf185/letter-template.php');
-
 include "../db_conn.php";
 include "func-admin.php";
 include "func-user.php";
@@ -31,41 +29,220 @@ if (!empty($name) && !empty($email)){
 
     file_put_contents('../txt/reservations.txt', $reservations);
 
-    if (isset($_POST['checkin']) && 
-        isset($_POST['checkout'])){
-
-            $checkin = $_POST['checkin'];   
-            $checkout = $_POST['checkout'];
+    $roomname = $_POST['roomname'];
+    $roomcategory = $_POST['roomcategory'];
+    $checkin = $_POST['checkin'];   
+    $checkout = $_POST['checkout'];
+    $roomprice = $_POST['roomprice'];
         
-        } else {
-            $checkin = date("Y-m-d", strtotime("+0 day"));
-            $checkout = date("Y-m-d", strtotime("+1 day"));
-        }
+//     require('../fpdf185/letter-template.php');
 
-    $text = "Buna ziua, $name! Va multumim pentru ca ne-ati ales. Va asteptam cu drag in perioada $checkin - $checkout! Detaliile de plata vor fi transmise prin email. Daca nu mai aveti acces la adresa $email sau pentru orice alte nelamuri va rugam sa ne contactati.";
+//     $text = "Buna ziua, $name! Va multumim pentru ca ne-ati ales. Va asteptam cu drag in perioada $checkin - $checkout! Detaliile de plata vor fi transmise prin email. Daca nu mai aveti acces la adresa $email sau pentru orice alte nelamuri va rugam sa ne contactati.";
     
         
-    $pdf=new PDF();
-    $pdf->AddPage();
-    $pdf->SetFont('Arial','', 11);
-    $pdf->Cell(85,10,"Hotel Royal\n\n",0,1,'C');
-    $pdf->SetFont('Arial','', 10);
-    $pdf->Justify($text,85,4);
-    $pdf->Write(4,"\nSource: https://hotelroyal.herokuapp.com/\n\n");
-    $pdf->Output();
+//     $pdf=new PDF();
+//     $pdf->AddPage();
+//     $pdf->SetFont('Arial','', 11);
+//     $pdf->Cell(85,10,"Hotel Royal\n\n",0,1,'C');
+//     $pdf->SetFont('Arial','', 10);
+//     $pdf->Justify($text,85,4);
+//     $pdf->Write(4,"\nSource: https://hotelroyal.herokuapp.com/\n\n");
+//     $pdf->Output();
 
-} else {
+        require('../fpdf185/fpdf.php');
 
-    $text = "Pentru a face o rezervare trebuie sa va conectati!";
+        class PDF extends FPDF {
 
-    $pdf=new PDF();
-    $pdf->AddPage();
-    $pdf->SetFont('Arial','', 11);
-    $pdf->Cell(85,10,"Hotel Royal\n\n",0,1,'C');
-    $pdf->SetFont('Arial','', 10);
-    $pdf->Justify($text,85,4);
-    $pdf->Write(4,"\nSource: https://hotelroyal.herokuapp.com/\n\n");
-    $pdf->Output();
-}
+            function Header() {
+                $this->SetFont('Arial', 'B', 28);
+                $this->SetTextColor(0);
+                $this->Cell(134, 12,'Hotel Royal');
+
+                $this->SetFont('Arial', 'B', 28);
+                $this->SetTextColor(0);
+                $this->setX(165);
+                $this->Cell(118, 12,'Factura');
+                $this->Ln(18);
+                $this->Ln();
+            }
+
+            function Footer() {
+                $this->SetY(-35);
+                $this->SetFont('Arial','I', 8);
+                $this->Cell(0,10,'Factura emisa la data ' . date('Y-m-d'),0,0,'C');
+
+                $this->SetY(-15);
+                $this->SetFont('Arial','I',8);
+                $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
+            }
+
+            function detalii_hotel() {
+                $this->Ln();
+                $this->Ln();
+                
+                $this->SetFont('Arial', '', 12);
+                $this->SetTextColor(0);
+                $this->SetY(30);
+
+                $this->Cell(134, 6,'SC Hotel Royal SRL');
+                $this->Ln();
+
+                $this->Cell(134, 6,'CIF: RO19567329');
+                $this->Ln();
+
+                $this->Cell(134, 6,'Adresa: Hotel Avenue, St. Lt. Gheorghe Iacob 2, Buzau 100020');
+                $this->Ln();
+
+                $this->Cell(134, 6,'Telefon: +40 769 850 655');
+                $this->Ln();
+
+                $this->Cell(134, 6,'Email: eduardpetredaw@gmail.com');
+                $this->Ln();
+
+                $this->Cell(134, 6,'IBAN: RO39BTRLRONCRT0490811001, Banca Transilvania');
+                $this->Ln();
+            }
+
+            function detalii_client(){
+                global $name;
+                global $email;
+
+                $this->Ln();
+                $this->Ln();
+
+                $this->SetFont('Arial', 'B', 17);
+                $this->SetTextColor(0);
+
+                $this->SetY(30);
+
+                $this->SetX(165);
+                $this->Cell(118, 6, "Client:");
+                $this->Ln();
+                $this->LN();
+
+                $this->SetFont('Arial', '', 12);
+                
+                $this->SetX(165);
+                $this->Cell(118, 6, 'Nume: ' . $name);
+                $this->Ln();
+                $this->SetX(165);
+                $this->Cell(118, 6, 'Email: ' . $email);
+                $this->Ln();
+            }
+
+        
+            function FancyTable(){
+                
+                $this->SetY(80);
+                $this->SetFont('Arial', 'B', 15);
+                $header = array("Camera", "Capacitate", "Perioada", "Pret");
+                $w = array(80,60,80,45);
+
+                for($i=0;$i<count($header);$i++)
+                    $this->Cell($w[$i],15,$header[$i],1,0,'C');
+                $this->Ln();
+            
+                $this->SetFont('Arial', '', 12);
+
+                global $roomname;
+                global $roomcategory;
+                global $checkin;
+                global $checkout;
+                global $roomprice;
+
+                $height = 95;
+                
+                $dataname = array();
+                $dataname = explode("\n", $roomname);
+                
+                $datacat = array();
+                $datacat = explode("\n", $roomcategory);
+
+                $datacin = array();
+                $datacin = explode("\n", $checkin);
+
+                $datacout = array();
+                $datacout = explode("\n", $checkout);
+
+                $dataprice = array();
+                $dataprice = explode("\n", $roomprice);
+                
+                $length = max(count($dataname), count($datacat), count($datacin), count($datacout), count($dataprice));
+                $dataname = array_pad($dataname, $length, '');
+                $datacat = array_pad($datacat, $length, '');
+                $datacin = array_pad($datacin, $length, '');
+                $datacout = array_pad($datacout, $length, '');
+                $dataprice = array_pad($dataprice, $length, '');
+                
+                $this->SetY(90);
+                $this->SetX(50);
+
+
+                for($i=0; $i < count($dataname); $i=$i+1){
+                    $this->SetY($height);
+                    $this->SetX(15);
+                    $this->Multicell($w[0], 10, $dataname[$i], 1, 'C');
+                    
+                    $this->SetY($height);
+                    $this->SetX(95);
+                    $this->Multicell($w[1], 10, $datacat[$i], 1, 'C');
+                    
+                    $this->SetY($height);
+                    $this->SetX(155);
+                    $this->Multicell($w[2], 10, $datacin[$i].' - '.$datacout[$i], 1, 'C');
+
+                    $this->SetY($height);
+                    $this->SetX(235);
+                    $this->Multicell($w[3], 10, $dataprice[$i].' RON', 1, 'C');
+
+                    $height = $height + 5;
+                }
+            }
+        }
+
+        $dataname = array();
+        $dataname = explode("\n", $roomname);
+        
+        $datacat = array();
+        $datacat = explode("\n", $roomcategory);
+
+        $datacin = array();
+        $datacin = explode("\n", $checkin);
+
+        $datacout = array();
+        $datacout = explode("\n", $checkout);
+
+        $dataprice = array();
+        $dataprice = explode("\n", $roomprice);
+        
+        $length = max(count($dataname), count($datacat), count($datacin), count($datacout), count($dataprice));
+        $dataname = array_pad($dataname, $length, '');
+        $datacat = array_pad($datacat, $length, '');
+        $datacin = array_pad($datacin, $length, '');
+        $datacout = array_pad($datacout, $length, '');
+        $dataprice = array_pad($dataprice, $length, '');
+
+        $pdf = new PDF('L', 'mm', array(210, 298));
+        $pdf->AliasNbPages();
+        $pdf->SetMargins(15, 15, 15);
+        $pdf->AddPage();
+        $pdf->detalii_hotel();
+        $pdf->detalii_client();
+        $pdf->FancyTable();
+        $pdf->Output();
+    
+    } else {
+
+        $text = "Pentru a face o rezervare trebuie sa va conectati!";
+    
+        $pdf=new PDF();
+        $pdf->AddPage();
+        $pdf->SetFont('Arial','', 11);
+        $pdf->Cell(85,10,"Hotel Royal\n\n",0,1,'C');
+        $pdf->SetFont('Arial','', 10);
+        $pdf->Justify($text,85,4);
+        $pdf->Write(4,"\nSource: https://hotelroyal.herokuapp.com/\n\n");
+        $pdf->Output();
+    }
 
 ?>

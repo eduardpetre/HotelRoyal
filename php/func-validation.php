@@ -11,3 +11,10 @@ function is_empty($var, $text, $location, $ms, $data) {
     }
     return 0;
 }
+
+function validate($data){
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+ }

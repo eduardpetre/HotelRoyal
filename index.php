@@ -121,7 +121,7 @@ file_put_contents('txt/visitors.txt', $visitors);
                                     
                                 <?php }} else { ?>
                                     Pret: 
-                                    <?=$room['price']?>
+                                    <?=$newPrice = $room['price']?>
                                     lei, 1 noapte
                                 <?php } ?>
 							<br></b></i>
@@ -129,8 +129,17 @@ file_put_contents('txt/visitors.txt', $visitors);
                         <form method="POST" action="php/pdf-generator.php">
                             <?php 
                                 if (isset($_POST['check-in']) && isset($_POST['check-out'])) { ?>
-                                    <input type="date" hidden value="<?=$_POST['check-in']?>" name="checkin">
-                                    <input type="date" hidden value="<?=$_POST['check-out']?>" name="checkout">
+                                    <input type="text" value="<?php echo $room['name']?>" name="roomname" hidden readonly>
+                                    <input type="text" value="<?php echo $category['name']?>" name="roomcategory" hidden readonly>
+                                    <input type="date" value="<?=$_POST['check-in']?>" name="checkin" hidden readonly>
+                                    <input type="date" value="<?=$_POST['check-out']?>" name="checkout" hidden readonly>
+                                    <input type="text" value="<?php echo $newPrice?>" name="roomprice" hidden readonly>
+                            <?php } else { ?>
+                                    <input type="text" value="<?php echo $room['name']?>" name="roomname" hidden readonly>
+                                    <input type="text" value="<?php echo $category['name']?>" name="roomcategory" hidden readonly>
+                                    <input type="date" value="<?=date("Y-m-d", strtotime("+0 day"))?>" name="checkin" hidden readonly>
+                                    <input type="date" value="<?=date("Y-m-d", strtotime("+1 day"))?>" name="checkout" hidden readonly>
+                                    <input type="text" value="<?php echo $newPrice?>" name="roomprice" hidden readonly>
                             <?php } ?>
                                 <button type="submit" class="btn btn-success" style="width:100%">Rezerva acum!</button>
                         </form>
@@ -154,7 +163,7 @@ file_put_contents('txt/visitors.txt', $visitors);
                         <button type="submit" class="btn btn-primary" style="width:100%">Cauta</button>
                     </form>
                     
-                    <div class="list-group rounded shadow">
+                    <!-- <div class="list-group rounded shadow">
                         <?php if ($categories == 0){
                             // do nothing
                         } else { ?>
@@ -165,15 +174,16 @@ file_put_contents('txt/visitors.txt', $visitors);
                                 <?=$category['name']?>
                             </a>
                         <?php } } ?>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 		</div>
 
         <?php
+
         require 'php/func-include-content.php';
 
-        // echo "Clinica noastra dispune de urmatoarele pachete in parteneriat cu clinica Regina Maria:";
+        echo "In parteneriat cu Hotel Avenue, la ei aveti parte de urmatoarele beneficii:";
         $html = file_get_html('https://avenuehotels.ro/hotel-avenue-buzau/');
         $titles = $html->find('p.elementor-heading-title.elementor-size-default');
         $desc1 = $html->find('div.elementor-element.elementor-element-a0293a2.elementor-widget.elementor-widget-text-editor');
