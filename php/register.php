@@ -54,19 +54,24 @@ if (isset($_POST['name']) &&
                 WHERE email=?";
         $stmt = $conn->prepare($sql);
         $stmt->execute([$email]);
+
+        $sql1 = "SELECT * FROM admin
+                WHERE email=?";
+        $stmt1 = $conn->prepare($sql1);
+        $stmt1->execute([$email]);
         
         // daca emailul exista
-        if ($stmt->rowCount() === 1) {
+        // if ($stmt->rowCount() === 1 || $stmt1->rowCount() === 1) {
+        if($stmt->rowCount() === 1){
             header("Location: ../signup.php?error=Exista deja un cont cu acelasi email!&$user_data");
             exit;
-        } else {
+        } else if ($stmt->rowCount() === 0){
 
             include "../PHPGangsta/GoogleAuthenticator.php";
             $ga = new PHPGangsta_GoogleAuthenticator();
             $secret = $ga->createSecret();
-
-            $to = $email;
             
+            $email = $_POST['email'];
             $email_subject = "2FA Hotel Royal";
             $email_body = "Codul pentru contul creat este: ".$secret;
 
@@ -103,7 +108,7 @@ if (isset($_POST['name']) &&
             if ($res) {
                 // success message
                 $_SESSION['email'] = $email;
-                header("Location: ../2FA.php?success=Introduceti codul de verificare");
+                header("Location: ../2FA.php?success=Introduceti codul de verificare trimis pe mail-ul ".$email);
                 exit;
             }else {
                 // error message

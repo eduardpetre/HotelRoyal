@@ -38,9 +38,7 @@ if (isset($_POST['name']) &&
     is_empty($message, $text, $location, $ms, $user_data);
 
 
-    $myemail = 'eduardpetredaw@gmail.com';
-    $to = $myemail;
-    
+    $myemail = 'eduardpetredaw@gmail.com';    
     $email_subject = "Contact form submission: $name";
     $email_body = "You have received a new message. ".
                 " Here are the details:<br> Name: $name <br> ".
