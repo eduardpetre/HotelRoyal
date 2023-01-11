@@ -61,8 +61,7 @@ if (isset($_POST['name']) &&
         $stmt1->execute([$email]);
         
         // daca emailul exista
-        // if ($stmt->rowCount() === 1 || $stmt1->rowCount() === 1) {
-        if($stmt->rowCount() === 1){
+        if ($stmt->rowCount() === 1 || $stmt1->rowCount() === 1) {
             header("Location: ../signup.php?error=Exista deja un cont cu acelasi email!&$user_data");
             exit;
         } else if ($stmt->rowCount() === 0){
