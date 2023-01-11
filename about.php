@@ -93,7 +93,7 @@
                 <?php $reservations = file_get_contents('txt/reservations.txt');?>
 
                 <div class="mb-3">
-                    <label class="form-label">Numar de accesari <?=$visitors?></label>
+                    <label class="form-label">Numar de vizitatori <?=$_SESSION['visitors']?></label>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Numar de rezervari <?=$reservations?></label>
@@ -106,7 +106,6 @@
                 </div>
 
                 <div id="piechart_3d"></div>
-
             </div>
         </div>
     </div>

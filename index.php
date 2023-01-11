@@ -9,11 +9,31 @@ $rooms = get_all_rooms($conn);
 include "php/func-category.php";
 $categories = get_all_categories($conn);
 
+function getUniqueVisitorCount($ip){
+    if(!isset($_SERVER['current_user'])){
+        $file = 'txt/visitors.txt';
+        if(!$data = @file_get_contents($file)){
+            file_put_contents($file, base64_encode($ip));
+            $_SERVER['visitors'] = 1;
+        }
+        else{
+            $decodedData = base64_decode($data);
+            $ipList      = explode(';', $decodedData);
 
-$visitors = file_get_contents('txt/visitors.txt');
-$visitors = $visitors + 1;
+            if(!in_array($ip, $ipList)){
+              array_push($ipList, $ip);
+              file_put_contents($file, base64_encode(implode(';', $ipList)));
+            }
+            $_SERVER['visitors'] = count($ipList);
+        }
+        $_SERVER['current_user'] = $ip;
+    }
+}
 
-file_put_contents('txt/visitors.txt', $visitors);
+$ip = $_SERVER['REMOTE_ADDR'];
+getUniqueVisitorCount($ip);
+
+$_SESSION['visitors'] = $_SERVER['visitors'];
 
 ?>
 
@@ -70,18 +90,16 @@ file_put_contents('txt/visitors.txt', $visitors);
 		</nav>
 
 		<div class="d-flex pt-3">
-
+            <?php if (isset($_GET['success'])) { ?>
+                <div class="alert alert-success text-center p-5" role="alert" style="width:70%; margin-right:10%">
+                    <?=htmlspecialchars($_GET['success']); ?>
+                </div>
+            <?php } ?>
 			<?php if ($rooms == 0){ ?>
 				<div class="alert alert-warning text-center p-5" role="alert" style="width:70%; margin-right:10%">
                     Nu exista camere in baza de date
 		        </div>
 			<?php }else{ ?>
-
-            <?php if (isset($_GET['success'])) { ?>
-                <div class="alert alert-success" role="alert">
-                    <?=htmlspecialchars($_GET['success']); ?>
-                </div>
-            <?php } ?>
 
 			<div class="room-list d-flex flex-wrap">
 				<?php foreach ($rooms as $room) { ?>
