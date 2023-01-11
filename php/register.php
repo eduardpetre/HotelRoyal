@@ -82,7 +82,7 @@ if (isset($_POST['name']) &&
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS =>"{\"recipients\":[{\"email\":\"$myemail\"}],\"title\":\"$email_subject\",\"html\":\"$email_body\"}",
+                CURLOPT_POSTFIELDS =>"{\"recipients\":[{\"email\":\"$email\"}],\"title\":\"$email_subject\",\"html\":\"$email_body\"}",
                 CURLOPT_HTTPHEADER => array(
                     "x-trustifi-key: " . "fff6f53b014b6dc008eb3fb85d1c1510c261f1c1ccc3e41c",
                     "x-trustifi-secret: " . "75127a9442b372a32c3d7faf3f547ab7",
