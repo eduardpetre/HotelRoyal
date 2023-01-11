@@ -88,13 +88,13 @@ $_SESSION['visitors'] = $_SERVER['visitors'];
                 </div>
 		    </div>
 		</nav>
-
-		<div class="d-flex pt-3">
-            <?php if (isset($_GET['success'])) { ?>
+        <?php if (isset($_GET['success'])) { ?>
                 <div class="alert alert-success text-center p-5" role="alert" style="width:70%; margin-right:10%">
                     <?=htmlspecialchars($_GET['success']); ?>
                 </div>
             <?php } ?>
+		<div class="d-flex pt-3">
+            
 			<?php if ($rooms == 0){ ?>
 				<div class="alert alert-warning text-center p-5" role="alert" style="width:70%; margin-right:10%">
                     Nu exista camere in baza de date
