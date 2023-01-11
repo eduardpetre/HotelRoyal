@@ -77,6 +77,12 @@ file_put_contents('txt/visitors.txt', $visitors);
 		        </div>
 			<?php }else{ ?>
 
+            <?php if (isset($_GET['success'])) { ?>
+                <div class="alert alert-success" role="alert">
+                    <?=htmlspecialchars($_GET['success']); ?>
+                </div>
+            <?php } ?>
+
 			<div class="room-list d-flex flex-wrap">
 				<?php foreach ($rooms as $room) { ?>
 				<div class="card m-1">
